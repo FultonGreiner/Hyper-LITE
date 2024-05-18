@@ -1,0 +1,84 @@
+# Compiled object files
+*.o
+*.ko
+*.obj
+*.elf
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Libraries
+*.lib
+*.a
+*.la
+*.lo
+*.def
+*.exp
+
+# Shared objects (shared libraries)
+*.dll
+*.so
+*.so.*
+*.dylib
+
+# Executable files
+*.exe
+*.out
+*.app
+
+# Debug files
+*.dSYM/
+*.su
+*.idb
+*.pdb
+
+# Debug log files
+*.log
+
+# CMake files
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+build/
+
+# Generated files
+*.orig
+*.rej
+*.patch
+*.diff
+*.out
+*.spec
+*.config
+
+# Backup files
+*~
+*.bak
+*.swp
+*.swo
+*.tmp
+*.old
+
+# Dependency directories
+deps/
+deps/*
+libdeps/
+libdeps/*
+
+# IDE directories
+.vscode/
+.idea/
+*.code-workspace
+
+# Specific to Eclipse
+.metadata
+tmp/
+*.tmp
+*.bak
+*.swp
+*.metadata
+bin/**
+tmp/**
+*.launch
+.settings/
