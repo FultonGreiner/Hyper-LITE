@@ -32,6 +32,7 @@
 
 ```
 Hyper-LITE/
+├── cmake                   # CMake utilities
 ├── src/                    # Source code for the hypervisor
 │ ├── devices/              # Device-related modules
 │ ├── drivers/              # Device drivers
