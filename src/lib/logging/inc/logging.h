@@ -1,19 +1,17 @@
 /**
  * @file logging.h
- * @brief Logging module header file.
+ * @brief Logging functionality for the hypervisor.
  *
- * This file contains the function prototypes and definitions for the
- * logging module, including initialization, character transmission,
- * and log message transmission functions.
+ * Provides logging levels and functions to log messages.
  *
  * @date 2024-05-18
  * @version 1.0
- * @autor Charles Fulton Greiner
+ * @author Charles Fulton Greiner
  *
  * @details
- * The logging module provides basic functionalities for logging
- * messages with different severity levels. It uses the UART driver
- * for output.
+ * This file defines the logging levels and functions to log messages
+ * with different severity levels. It includes macros for logging
+ * messages with a specific logging level.
  *
  * @section license License
  * MIT License
@@ -37,25 +35,22 @@
  * SOFTWARE.
  *
  * @section description Description
- * Function prototypes and definitions for the logging module.
- *
- * @section examples Examples
- * No examples available for logging functions.
+ * Defines logging levels and functions for logging messages with
+ * various severity levels.
  */
 
 #ifndef LOGGING_H
 #define LOGGING_H
 
+#include <stdarg.h>
+
 /**
  * @brief Logging levels, similar to syslog levels.
  *
- * This enum defines the different severity levels for logging
- * messages. The levels range from emergency (system is unusable)
- * to debug (debug-level messages).
- *
- * @author Charles Fulton Greiner
+ * Defines various logging levels that can be used to categorize
+ * log messages by severity.
  */
-typedef enum
+typedef enum log_level
 {
     LOG_EMERG = 0, /**< system is unusable */
     LOG_ALERT,     /**< action must be taken immediately */
@@ -71,50 +66,29 @@ typedef enum
 /**
  * @brief Initialize the logging system.
  *
- * This function initializes the logging system by setting up
- * the UART driver for output.
- *
- * @return void
- *
- * @author Charles Fulton Greiner
+ * Sets up the UART for logging.
  */
 void log_init(void);
 
 /**
- * @brief Transmit a character via the logging system.
+ * @brief Log a formatted message with a specific logging level.
  *
- * This function transmits a single character via the UART driver
- * as part of the logging system.
+ * Logs a message with the given format and arguments at the specified
+ * logging level.
  *
- * @param c The character to be transmitted.
- * @return void
- *
- * @author Charles Fulton Greiner
+ * @param level The logging level.
+ * @param format The format string.
+ * @param ... The arguments for the format string.
  */
-void log_putc(char c);
+void log_printf(log_level_t level, const char* format, ...);
 
-/**
- * @brief Transmit a log message via the logging system.
- *
- * This function transmits a log message with a specified log level
- * via the UART driver. It prefixes the message with the log level.
- *
- * @param level The log level of the message.
- * @param str The null-terminated log message to be transmitted.
- * @return void
- *
- * @author Charles Fulton Greiner
- */
-void log_puts(log_level_t level, const char* str);
-
-/* Logging macros */
-#define LOG_EMERG(msg) log_puts(LOG_EMERG, msg)
-#define LOG_ALERT(msg) log_puts(LOG_ALERT, msg)
-#define LOG_CRIT(msg) log_puts(LOG_CRIT, msg)
-#define LOG_ERR(msg) log_puts(LOG_ERR, msg)
-#define LOG_WARNING(msg) log_puts(LOG_WARNING, msg)
-#define LOG_NOTICE(msg) log_puts(LOG_NOTICE, msg)
-#define LOG_INFO(msg) log_puts(LOG_INFO, msg)
-#define LOG_DEBUG(msg) log_puts(LOG_DEBUG, msg)
+#define LOG_EMERG(...) log_printf(LOG_EMERG, __VA_ARGS__)
+#define LOG_ALERT(...) log_printf(LOG_ALERT, __VA_ARGS__)
+#define LOG_CRIT(...) log_printf(LOG_CRIT, __VA_ARGS__)
+#define LOG_ERR(...) log_printf(LOG_ERR, __VA_ARGS__)
+#define LOG_WARNING(...) log_printf(LOG_WARNING, __VA_ARGS__)
+#define LOG_NOTICE(...) log_printf(LOG_NOTICE, __VA_ARGS__)
+#define LOG_INFO(...) log_printf(LOG_INFO, __VA_ARGS__)
+#define LOG_DEBUG(...) log_printf(LOG_DEBUG, __VA_ARGS__)
 
 #endif // LOGGING_H

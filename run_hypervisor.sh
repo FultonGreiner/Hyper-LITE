@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
 
+# must use the ELF, using binary breaks static/global variables?
 qemu-system-aarch64 \
-    -machine virt \
-    -cpu cortex-a57 \
-    -smp 1 \
-    -m 512M \
+    -machine virt,virtualization=on \
+    -cpu cortex-a53 \
     -nographic \
-    -kernel build/hypervisor.bin \
-    -append "console=ttyAMA0" \
+    -smp 1 \
+    -m 1024 \
+    -kernel build/Hyper-LITE \
     -serial mon:stdio \
-    -semihosting
+    -monitor none \
+    -no-reboot
