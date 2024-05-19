@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 
-set (PROJECT_NAME             "Hyper-LITE")
-set (PROJECT_TYPE             "exe")
+set(PROJECT_NAME "Hyper-LITE")
+set(PROJECT_TYPE "exe")
 
 project(${PROJECT_NAME} LANGUAGES ASM C CXX)
 
@@ -15,11 +15,14 @@ set(HYPERVISOR_BIN "${CMAKE_BINARY_DIR}/hypervisor.bin")
 set(PROJECT_SOURCES
     src/start.s
     src/main.c
+    src/drivers/uart/src/uart.c
+    src/lib/logging/src/logging.c
 )
 
 # Define include directories
 set(PROJECT_INCLUDES
-    src/inc
+    src/drivers/uart/inc
+    src/lib/logging/inc
 )
 
 # Define compiler definitions
@@ -43,7 +46,7 @@ set(PROJECT_LINK_FLAGS
 )
 
 # Concatenate link flags into a single string
-string(REPLACE ";" " " PROJECT_LINK_FLAGS_STR "${PROJECT_LINK_FLAGS}")
+list(JOIN PROJECT_LINK_FLAGS " " PROJECT_LINK_FLAGS_STR)
 
 # Include directories
 include_directories(${PROJECT_INCLUDES})

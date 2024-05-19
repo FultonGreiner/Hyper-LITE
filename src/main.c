@@ -3,15 +3,17 @@
  * @brief Main entry point for the hypervisor.
  *
  * This file contains the main function that serves as the entry
- * point for the hypervisor. It includes a function to exit QEMU.
+ * point for the hypervisor. It initializes the logging system and
+ * displays a "Hello, world!" message.
  *
  * @date 2024-05-18
  * @version 1.0
- * @author Charles Fulton Greiner
+ * @autor Charles Fulton Greiner
  *
  * @details
  * The main function in this file is responsible for initializing
- * the hypervisor environment and then exiting QEMU for testing.
+ * the hypervisor environment, setting up logging, and displaying
+ * a "Hello, world!" message before exiting.
  *
  * @section license License
  * MIT License
@@ -41,6 +43,7 @@
  * No examples available for the main entry point.
  */
 
+#include "logging.h"
 #include <stdint.h>
 
 /**
@@ -49,9 +52,11 @@
  * This function triggers an exit from QEMU by issuing a hypervisor
  * call with specific parameters.
  *
+ * @return void
+ *
  * @author Charles Fulton Greiner
  */
-static void qemu_exit(void)
+void qemu_exit(void)
 {
     register uint64_t x0 asm("x0") = 0x18;  /* Define exit code 0x18 */
     register uint64_t x1 asm("x1") = 0x20026;  /* Define QEMU exit status */
@@ -67,12 +72,16 @@ static void qemu_exit(void)
  * @brief Main entry point of the hypervisor.
  *
  * This function is the main entry point of the hypervisor. It
- * initializes the hypervisor environment and then exits QEMU
- * for testing purposes.
+ * initializes the hypervisor environment, sets up logging, and
+ * displays a "Hello, world!" message before exiting QEMU.
  *
- * @author Charles Fulton Greiner
+ * @return void
+ *
+ * @autor Charles Fulton Greiner
  */
 void main(void)
 {
+    log_init();  /* Initialize logging system */
+    LOG_INFO("Hello, world!\n\r");  /* Display "Hello, world!" message */
     qemu_exit();  /* Call the function to exit QEMU */
 }
