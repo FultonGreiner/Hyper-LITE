@@ -15,17 +15,17 @@
  *
  * @section license License
  * MIT License
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -55,7 +55,7 @@
  * @return An integer less than, equal to, or greater than zero if the first n bytes of s1 are found,
  * respectively, to be less than, to match, or be greater than the first n bytes of s2.
  */
-int memcmp(const void *s1, const void *s2, size_t n);
+int memcmp(const void* s1, const void* s2, size_t n);
 
 /**
  * @brief Copies memory area.
@@ -67,7 +67,7 @@ int memcmp(const void *s1, const void *s2, size_t n);
  * @param n Number of bytes to copy.
  * @return The pointer to dest.
  */
-void *memcpy(void *dest, const void *src, size_t n);
+void* memcpy(void* dest, const void* src, size_t n);
 
 /**
  * @brief Fills memory with a constant byte.
@@ -79,7 +79,7 @@ void *memcpy(void *dest, const void *src, size_t n);
  * @param n Number of bytes to be set to the value.
  * @return The pointer to the memory area s.
  */
-void *memset(void *s, int c, size_t n);
+void* memset(void* s, int c, size_t n);
 
 /**
  * @brief Prints formatted output to the UART.
@@ -90,7 +90,7 @@ void *memset(void *s, int c, size_t n);
  * @param ... Arguments for the format string.
  * @return Number of characters printed.
  */
-int printf(const char *format, ...);
+int printf(const char* format, ...);
 
 /**
  * @brief Prints formatted output to a string.
@@ -103,7 +103,7 @@ int printf(const char *format, ...);
  * @param ap Arguments for the format string.
  * @return Number of characters that would have been written if size had been sufficiently large.
  */
-int vsnprintf(char *str, size_t size, const char *format, va_list ap);
+int vsnprintf(char* str, size_t size, const char* format, va_list ap);
 
 /**
  * @brief Computes the length of a string.
@@ -113,6 +113,6 @@ int vsnprintf(char *str, size_t size, const char *format, va_list ap);
  * @param s Pointer to the string.
  * @return The number of characters in the string.
  */
-size_t strlen(const char *s);
+size_t strlen(const char* s);
 
 #endif // LIBC_H

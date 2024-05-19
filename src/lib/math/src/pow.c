@@ -15,17 +15,17 @@
  *
  * @section license License
  * MIT License
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -50,12 +50,15 @@
  * @param exp The exponent value.
  * @return The result of raising the base to the exponent.
  */
-double pow(double base, int exp) {
+double pow(double base, int exp)
+{
     double result = 1.0;
     int positive_exp = exp > 0 ? exp : -exp;
 
-    while (positive_exp) {
-        if (positive_exp % 2 == 1) {
+    while (positive_exp)
+    {
+        if (positive_exp % 2 == 1)
+        {
             result *= base;
         }
         base *= base;

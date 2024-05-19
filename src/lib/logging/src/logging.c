@@ -15,17 +15,17 @@
  *
  * @section license License
  * MIT License
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -40,12 +40,12 @@
  */
 
 #include "logging.h"
-#include "uart.h"
 #include "libc.h"
+#include "uart.h"
 
 #define MAX_LOG_LEN (128ULL)
 
-static const char *level_strings[LOG_LVL_NUM] = {
+static const char* level_strings[LOG_LVL_NUM] = {
     "EMERG: ",
     "ALERT: ",
     "CRIT:  ",
@@ -56,14 +56,15 @@ static const char *level_strings[LOG_LVL_NUM] = {
     "DEBUG: "
 };
 
-static char log_tx_buffer[MAX_LOG_LEN] = {0};
+static char log_tx_buffer[MAX_LOG_LEN] = { 0 };
 
 /**
  * @brief Initialize the logging system.
  *
  * Sets up the UART for logging.
  */
-void log_init(void) {
+void log_init(void)
+{
     uart_init();
 }
 
@@ -77,7 +78,8 @@ void log_init(void) {
  * @param format The format string.
  * @param ... The arguments for the format string.
  */
-void log_printf(log_level_t level, const char *format, ...) {
+void log_printf(log_level_t level, const char* format, ...)
+{
     char buffer[256];
     memset(log_tx_buffer, 0, MAX_LOG_LEN);
 

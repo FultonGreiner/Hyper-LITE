@@ -16,17 +16,17 @@
  *
  * @section license License
  * MIT License
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -39,8 +39,8 @@
  * Provides the implementation of the vsnprintf function.
  */
 
-#include "math.h"
 #include "libc.h"
+#include "math.h"
 
 /**
  * @brief Reverses a string.
@@ -50,9 +50,11 @@
  * @param str Pointer to the string to be reversed.
  * @param len Length of the string to be reversed.
  */
-static void reverse(char *str, int len) {
+static void reverse(char* str, int len)
+{
     int i = 0, j = len - 1, temp;
-    while (i < j) {
+    while (i < j)
+    {
         temp = str[i];
         str[i] = str[j];
         str[j] = temp;
@@ -71,28 +73,33 @@ static void reverse(char *str, int len) {
  * @param base The base to be used for the conversion (e.g., 10 for decimal, 16 for hexadecimal).
  * @return The length of the resulting string.
  */
-static int itoa(int num, char *str, int base) {
+static int itoa(int num, char* str, int base)
+{
     int i = 0;
     int isNegative = 0;
 
-    if (num == 0) {
+    if (num == 0)
+    {
         str[i++] = '0';
         str[i] = '\0';
         return i;
     }
 
-    if (num < 0 && base == 10) {
+    if (num < 0 && base == 10)
+    {
         isNegative = 1;
         num = -num;
     }
 
-    while (num != 0) {
+    while (num != 0)
+    {
         int rem = num % base;
         str[i++] = (rem > 9) ? (rem - 10) + 'a' : rem + '0';
         num = num / base;
     }
 
-    if (isNegative) {
+    if (isNegative)
+    {
         str[i++] = '-';
     }
 
@@ -113,13 +120,15 @@ static int itoa(int num, char *str, int base) {
  * @param afterpoint The number of digits to be displayed after the decimal point.
  * @return The length of the resulting string.
  */
-static int ftoa(float num, char *str, int afterpoint) {
+static int ftoa(float num, char* str, int afterpoint)
+{
     int ipart = (int)num;
     float fpart = num - (float)ipart;
 
     int i = itoa(ipart, str, 10);
 
-    if (afterpoint != 0) {
+    if (afterpoint != 0)
+    {
         str[i] = '.';
 
         fpart = fpart * pow(10, afterpoint);
@@ -142,56 +151,74 @@ static int ftoa(float num, char *str, int afterpoint) {
  * @param ap The variable argument list.
  * @return The number of characters written to the buffer, excluding the null byte.
  */
-int vsnprintf(char *str, size_t size, const char *format, va_list ap) {
-    char *buf = str;
-    const char *p;
+int vsnprintf(char* str, size_t size, const char* format, va_list ap)
+{
+    char* buf = str;
+    const char* p;
     int written = 0;
 
-    for (p = format; *p != '\0'; p++) {
-        if (*p == '%') {
+    for (p = format; *p != '\0'; p++)
+    {
+        if (*p == '%')
+        {
             p++;
-            if (*p == 's') {
-                const char *s = va_arg(ap, const char *);
-                while (*s && written < size - 1) {
+            if (*p == 's')
+            {
+                const char* s = va_arg(ap, const char*);
+                while (*s && written < size - 1)
+                {
                     *buf++ = *s++;
                     written++;
                 }
-            } else if (*p == 'd') {
+            }
+            else if (*p == 'd')
+            {
                 int num = va_arg(ap, int);
                 char temp[16];
                 itoa(num, temp, 10);
-                char *num_str = temp;
-                while (*num_str && written < size - 1) {
-                    *buf++ = *num_str++;
-                    written++;
-                }
-            } else if (*p == 'x') {
-                int num = va_arg(ap, int);
-                char temp[16];
-                itoa(num, temp, 16);
-                char *num_str = temp;
-                while (*num_str && written < size - 1) {
-                    *buf++ = *num_str++;
-                    written++;
-                }
-            } else if (*p == 'f') {
-                double num = va_arg(ap, double);
-                char temp[32];
-                ftoa(num, temp, 6);  // 6 digits after the decimal point
-                char *num_str = temp;
-                while (*num_str && written < size - 1) {
+                char* num_str = temp;
+                while (*num_str && written < size - 1)
+                {
                     *buf++ = *num_str++;
                     written++;
                 }
             }
-        } else {
-            if (written < size - 1) {
+            else if (*p == 'x')
+            {
+                int num = va_arg(ap, int);
+                char temp[16];
+                itoa(num, temp, 16);
+                char* num_str = temp;
+                while (*num_str && written < size - 1)
+                {
+                    *buf++ = *num_str++;
+                    written++;
+                }
+            }
+            else if (*p == 'f')
+            {
+                double num = va_arg(ap, double);
+                char temp[32];
+                ftoa(num, temp, 6); // 6 digits after the decimal point
+                char* num_str = temp;
+                while (*num_str && written < size - 1)
+                {
+                    *buf++ = *num_str++;
+                    written++;
+                }
+            }
+        }
+        else
+        {
+            if (written < size - 1)
+            {
                 *buf++ = *p;
                 written++;
             }
         }
     }
-    if (size > 0) {
+    if (size > 0)
+    {
         *buf = '\0';
     }
     return written;
