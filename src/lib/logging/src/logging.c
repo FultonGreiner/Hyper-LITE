@@ -17,17 +17,17 @@
  *
  * @section license License
  * MIT License
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -47,8 +47,7 @@
 #include "uart.h"
 
 /* Define log level strings */
-static const char level_strings[LOG_LVL_NUM][10] =
-{
+static const char level_strings[LOG_LVL_NUM][10] = {
     "EMERG: ",
     "ALERT: ",
     "CRIT:  ",
@@ -69,7 +68,8 @@ static const char level_strings[LOG_LVL_NUM][10] =
  *
  * @author Charles Fulton Greiner
  */
-void log_init(void) {
+void log_init(void)
+{
     uart_init(); /* Initialize UART for logging output */
 }
 
@@ -84,7 +84,8 @@ void log_init(void) {
  *
  * @author Charles Fulton Greiner
  */
-void log_putc(char c) {
+void log_putc(char c)
+{
     uart_putc(c);
 }
 
@@ -100,15 +101,18 @@ void log_putc(char c) {
  *
  * @author Charles Fulton Greiner
  */
-void log_puts(log_level_t level, const char *str) {
+void log_puts(log_level_t level, const char* str)
+{
     /* Prefix log message with the log level */
-    const char *prefix = level_strings[level];
-    while (*prefix) {
+    const char* prefix = level_strings[level];
+    while (*prefix)
+    {
         log_putc(*prefix++);
     }
 
     /* Transmit the log message */
-    while (*str) {
+    while (*str)
+    {
         log_putc(*str++);
     }
 }
