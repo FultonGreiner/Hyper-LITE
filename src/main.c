@@ -35,7 +35,6 @@
  */
 
 #include <stdint.h>
-#include "libc.h"
 #include "logging.h"
 #include "mmu.h"
 

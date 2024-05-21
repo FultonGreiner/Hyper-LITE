@@ -42,6 +42,7 @@
 #ifndef LOGGING_H
 #define LOGGING_H
 
+/* standard includes */
 #include <stdarg.h>
 
 /**
