@@ -1,33 +1,30 @@
 /**
  * @file main.c
- * @brief Main entry point for the hypervisor.
+ * @brief Entry point of the hypervisor.
  *
- * This file contains the main function which initializes the logging system,
- * tests the new printf and pow functionalities, logs the current Exception Level (EL),
- * and then exits QEMU.
+ * This file contains the main function that initializes the logging system,
+ * tests the MMU setup and functionality, and exits QEMU.
  *
  * @date 2024-05-18
  * @version 1.0
- * @author Charles Fulton Greiner
- *
  * @details
- * The main function initializes the logging system, performs various tests
- * using the printf and pow functionalities, logs the current Exception Level (EL),
- * and finally calls qemu_exit() to exit the QEMU emulator.
+ * The main function initializes the logging system, sets up the MMU, tests
+ * memory access before and after enabling the MMU, logs the current Exception
+ * Level (EL), and exits QEMU.
  *
  * @section license License
  * MIT License
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -40,13 +37,12 @@
 #include <stdint.h>
 #include "libc.h"
 #include "logging.h"
-#include "math.h"
+#include "mmu.h"
 
 /**
- * @brief Exits QEMU emulator.
+ * @brief Exit QEMU.
  *
- * This function uses the HLT instruction with specific parameters
- * to signal QEMU to exit.
+ * This function uses the QEMU "halt" instruction to exit QEMU.
  */
 void qemu_exit(void)
 {
@@ -60,20 +56,14 @@ void qemu_exit(void)
 }
 
 /**
- * @brief Main entry point of the hypervisor.
+ * @brief Main function.
  *
- * This function initializes the logging system, performs tests on the printf
- * and pow functions, logs the current Exception Level (EL), and exits QEMU.
+ * This function initializes the logging system, sets up and tests the MMU,
+ * logs the current Exception Level (EL), and exits QEMU.
  */
 void main(void)
 {
     log_init(); // Initialize logging system
-
-    // Test the new printf and pow functionality
-    LOG_INFO("Testing printf with integer: %d\n\r", 1234);
-    LOG_INFO("Testing printf with float: %f\n\r", 1234.5678);
-    LOG_INFO("Testing printf with hexadecimal: %x\n\r", 0xABCDEF);
-    LOG_INFO("Testing pow function: pow(2, 3) = %f\n\r", pow(2, 3));
 
     // Log the current EL
     uint64_t current_el;
@@ -83,5 +73,11 @@ void main(void)
 
     LOG_INFO("Entered main at EL%d\n\r", current_el);
 
+    LOG_INFO("Starting MMU Initialization\n\r");
+    mmu_init(); // Initialize the MMU
+    LOG_INFO("MMU Initialization Complete\n\r");
+
+    validate_mmu_setup();
+    
     qemu_exit(); // Call the function to exit QEMU
 }
