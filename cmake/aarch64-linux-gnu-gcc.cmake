@@ -1,4 +1,4 @@
-set (CMAKE_SYSTEM_PROCESSOR "arm"     CACHE STRING "")
+set (CMAKE_SYSTEM_PROCESSOR "aarch64"     CACHE STRING "")
 set (CMAKE_SYSTEM_NAME      "Linux"   CACHE STRING "")
 
 # Skip link step during toolchain validation.

@@ -120,4 +120,7 @@ SECTIONS {
     . = ALIGN(8);
     . += 0x1000;   /* 4KB of stack memory */
     stack_top = .;
+
+    . = ALIGN(8);
+    _end = .;
 }

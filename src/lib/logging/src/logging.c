@@ -39,12 +39,20 @@
  * initialization and formatted message logging with different severity levels.
  */
 
+/* module includes */
 #include "logging.h"
-#include "libc.h"
+
+/* standard includes */
+#include <stdarg.h>
+#include <stdio.h>
+#include <string.h>
+
+/* project includes */
 #include "uart.h"
 
-#define MAX_LOG_LEN (128ULL)
+#define MAX_LOG_LEN (256ULL) /* Max length in bytes for a log string */
 
+/* Log level prefixes */
 static const char* level_strings[LOG_LVL_NUM] = {
     "EMERG: ",
     "ALERT: ",
@@ -56,7 +64,7 @@ static const char* level_strings[LOG_LVL_NUM] = {
     "DEBUG: "
 };
 
-static char log_tx_buffer[MAX_LOG_LEN] = { 0 };
+static char log_tx_buffer[MAX_LOG_LEN] = { 0 }; /* Log Tx buffer */
 
 /**
  * @brief Initialize the logging system.
@@ -80,17 +88,33 @@ void log_init(void)
  */
 void log_printf(log_level_t level, const char* format, ...)
 {
-    char buffer[256];
-    memset(log_tx_buffer, 0, MAX_LOG_LEN);
-
+    int len_prefix = 0x0; /* length of log level prefix */
+    int len_msg    = 0x0; /* length of log message */
     va_list args;
+
     va_start(args, format);
-    int len = vsnprintf(buffer, sizeof(buffer), format, args);
+
+    len_prefix = snprintf(log_tx_buffer, sizeof(log_tx_buffer), "%s", level_strings[level]);
+    if ( ( 0 > len_prefix) || ( len_prefix >= sizeof(log_tx_buffer) ) )
+    {
+        /* TODO: handle error */
+        printf("%s", "Buffer too small (or encoding error)!\n\r");
+        return;
+    }
+
+    len_msg = snprintf(log_tx_buffer + len_prefix, sizeof(log_tx_buffer), format, args);
+    if ( ( 0 > len_msg) || ( ( len_msg + len_prefix ) >= sizeof(log_tx_buffer) ) )
+    {
+        /* TODO: handle error */
+        printf("%s", "Buffer too small (or encoding error)!\n\r");
+        return;
+    }
+
     va_end(args);
 
-    // Add log level prefix
-    uart_puts(level_strings[level]);
+    /* Print the formatted string */
+    printf("%s", log_tx_buffer);
 
-    // Print the formatted string
-    uart_puts(buffer);
+    /* Reset the Tx buffer */
+    memset(log_tx_buffer, 0x0, len_prefix + len_msg);
 }
