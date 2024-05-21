@@ -10,4 +10,4 @@ qemu-system-aarch64 \
     -m 2048 \
     -serial mon:stdio \
     -S -s \
-    -kernel build/Hyper-LITE
+    -kernel build/hyper-lite.elf
