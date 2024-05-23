@@ -1,0 +1,14 @@
+# .bazelrc
+
+# Enable bazel mod
+
+# Build using platforms by default
+# build --enable_platform_specific_config
+build --incompatible_enable_cc_toolchain_resolution
+
+# Build for aarch64 virt
+# build --platforms=//platforms:aarch64_none_platform
+# build --host_platform=@platforms//os:linux
+
+# build --crosstool_top=//toolchain:gcc_toolchain
+# build --host_crosstool_top=@bazel_tools//tools/cpp:toolchain

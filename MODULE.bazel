@@ -1,0 +1,13 @@
+module(
+    name = "hyper-lite",
+    version = "1.0.0",
+)
+
+bazel_dep(name = "rules_cc", version = "0.0.9")
+
+register_toolchains(
+    "//toolchain:cc_toolchain_for_linux_x86_64",
+)
+
+# register_toolchains("//toolchain:toolchain_aarch64_none_elf")
+# register_execution_platforms("//platforms:aarch64_none_platform")
