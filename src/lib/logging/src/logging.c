@@ -88,8 +88,8 @@ void log_init(void)
  */
 void log_printf(log_level_t level, const char* format, ...)
 {
-    int len_prefix = 0x0; /* length of log level prefix */
-    int len_msg = 0x0;    /* length of log message */
+    int     len_prefix = 0x0; /* length of log level prefix */
+    int     len_msg    = 0x0; /* length of log message */
     va_list args;
 
     va_start(args, format);

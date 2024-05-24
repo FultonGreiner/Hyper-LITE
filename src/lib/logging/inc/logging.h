@@ -83,13 +83,13 @@ void log_init(void);
  */
 void log_printf(log_level_t level, const char* format, ...);
 
-#define LOG_EMERG(...) log_printf(LOG_EMERG, __VA_ARGS__)
-#define LOG_ALERT(...) log_printf(LOG_ALERT, __VA_ARGS__)
-#define LOG_CRIT(...) log_printf(LOG_CRIT, __VA_ARGS__)
-#define LOG_ERR(...) log_printf(LOG_ERR, __VA_ARGS__)
+#define LOG_EMERG(...)   log_printf(LOG_EMERG, __VA_ARGS__)
+#define LOG_ALERT(...)   log_printf(LOG_ALERT, __VA_ARGS__)
+#define LOG_CRIT(...)    log_printf(LOG_CRIT, __VA_ARGS__)
+#define LOG_ERR(...)     log_printf(LOG_ERR, __VA_ARGS__)
 #define LOG_WARNING(...) log_printf(LOG_WARNING, __VA_ARGS__)
-#define LOG_NOTICE(...) log_printf(LOG_NOTICE, __VA_ARGS__)
-#define LOG_INFO(...) log_printf(LOG_INFO, __VA_ARGS__)
-#define LOG_DEBUG(...) log_printf(LOG_DEBUG, __VA_ARGS__)
+#define LOG_NOTICE(...)  log_printf(LOG_NOTICE, __VA_ARGS__)
+#define LOG_INFO(...)    log_printf(LOG_INFO, __VA_ARGS__)
+#define LOG_DEBUG(...)   log_printf(LOG_DEBUG, __VA_ARGS__)
 
 #endif // LOGGING_H

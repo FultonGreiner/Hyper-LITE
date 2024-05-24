@@ -48,12 +48,12 @@
 #include <stdint.h>
 
 #define UART0_BASE 0x09000000
-#define UART0_DR (*(volatile uint32_t*)(UART0_BASE + 0x00))
-#define UART0_FR (*(volatile uint32_t*)(UART0_BASE + 0x18))
+#define UART0_DR   (*(volatile uint32_t*)(UART0_BASE + 0x00))
+#define UART0_FR   (*(volatile uint32_t*)(UART0_BASE + 0x18))
 #define UART0_IBRD (*(volatile uint32_t*)(UART0_BASE + 0x24))
 #define UART0_FBRD (*(volatile uint32_t*)(UART0_BASE + 0x28))
 #define UART0_LCRH (*(volatile uint32_t*)(UART0_BASE + 0x2C))
-#define UART0_CR (*(volatile uint32_t*)(UART0_BASE + 0x30))
+#define UART0_CR   (*(volatile uint32_t*)(UART0_BASE + 0x30))
 #define UART0_IMSC (*(volatile uint32_t*)(UART0_BASE + 0x38))
 
 /**
@@ -67,11 +67,11 @@
  */
 void uart_init(void)
 {
-    UART0_CR = 0x00000000; /* Disable UART */
-    UART0_IBRD = 1;        /* Set baud rate: Assuming 115200 baud with 24MHz clock */
+    UART0_CR   = 0x00000000; /* Disable UART */
+    UART0_IBRD = 1;          /* Set baud rate: Assuming 115200 baud with 24MHz clock */
     UART0_FBRD = 40;
-    UART0_LCRH = (1 << 5) | (1 << 6);          /* 8 bits, no parity, 1 stop bit */
-    UART0_CR = (1 << 0) | (1 << 8) | (1 << 9); /* Enable UART, TX, RX */
+    UART0_LCRH = (1 << 5) | (1 << 6);            /* 8 bits, no parity, 1 stop bit */
+    UART0_CR   = (1 << 0) | (1 << 8) | (1 << 9); /* Enable UART, TX, RX */
 }
 
 /**

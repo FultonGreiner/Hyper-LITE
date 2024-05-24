@@ -70,9 +70,9 @@ void _exit(int status)
  */
 void* _sbrk(ptrdiff_t incr)
 {
-    extern char _end;      /* Defined by the linker */
-    static char* heap_end; /* Current end of the heap */
-    char* prev_heap_end;   /* Previous end of the heap */
+    extern char  _end;          /* Defined by the linker */
+    static char* heap_end;      /* Current end of the heap */
+    char*        prev_heap_end; /* Previous end of the heap */
 
     if (heap_end == 0)
     {

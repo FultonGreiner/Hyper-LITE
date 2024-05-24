@@ -53,7 +53,7 @@ typedef struct
     mmu_pte_t entries[64] __attribute__((__aligned__(512)));
 } mmu_table_t;
 
-void mmu_init(void);
+void     mmu_init(void);
 uint64_t mmu_get_page_table_base(void);
 
 #endif // MMU_H

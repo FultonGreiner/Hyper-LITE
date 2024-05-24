@@ -19,8 +19,9 @@ SpacesInParentheses: false
 SpaceInEmptyParentheses: false
 Cpp11BracedListStyle: false
 NamespaceIndentation: None
-AlignConsecutiveAssignments: false
-AlignConsecutiveDeclarations: false
+AlignConsecutiveAssignments: true
+AlignConsecutiveDeclarations: true
+AlignConsecutiveMacros: true
 AlignEscapedNewlines: Left
 AlignTrailingComments: true
 AllowAllParametersOfDeclarationOnNextLine: true
