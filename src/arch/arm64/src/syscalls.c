@@ -13,17 +13,17 @@
  *
  * @section license License
  * MIT License
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -34,10 +34,12 @@
  */
 
 /* module includes */
-#include "syscalls.h"
+// #include "syscalls.h"
 
 /* standard includes */
-#include <stddef.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+// #include <stddef.h>
 
 /* project includes */
 #include "uart.h"
@@ -68,9 +70,9 @@ void _exit(int status)
  */
 void* _sbrk(ptrdiff_t incr)
 {
-    extern char _end;       /* Defined by the linker */
-    static char *heap_end;  /* Current end of the heap */
-    char *prev_heap_end;    /* Previous end of the heap */
+    extern char _end;      /* Defined by the linker */
+    static char* heap_end; /* Current end of the heap */
+    char* prev_heap_end;   /* Previous end of the heap */
 
     if (heap_end == 0)
     {
@@ -80,7 +82,7 @@ void* _sbrk(ptrdiff_t incr)
 
     heap_end += incr;
 
-    return (void*) prev_heap_end;
+    return (void*)prev_heap_end;
 }
 
 /**
@@ -94,11 +96,11 @@ void* _sbrk(ptrdiff_t incr)
  * @param len Length of the data to write.
  * @return Number of bytes written.
  */
-ssize_t _write(int file, const void *ptr, size_t len)
+ssize_t _write(int file, const void* ptr, size_t len)
 {
     (void)file;
 
-    const char *data = (const char*)ptr; /* Pointer to Tx buffer */
+    const char* data = (const char*)ptr; /* Pointer to Tx buffer */
 
     for (size_t i = 0; i < len; i++)
     {
@@ -119,7 +121,7 @@ ssize_t _write(int file, const void *ptr, size_t len)
  * @param len Length of the data to read.
  * @return -1 to indicate reading is not supported.
  */
-ssize_t _read(int file, void *ptr, size_t len)
+ssize_t _read(int file, void* ptr, size_t len)
 {
     (void)file;
     (void)ptr;
@@ -154,7 +156,7 @@ int _close(int file)
  * @param st Pointer to the stat structure to fill (unused).
  * @return -1 to indicate status is not available.
  */
-int _fstat(int file, struct stat *st)
+int _fstat(int file, struct stat* st)
 {
     (void)file;
     (void)st;
@@ -212,7 +214,7 @@ int _kill(pid_t pid, int sig)
 {
     (void)pid;
     (void)sig;
-    
+
     return -1;
 }
 

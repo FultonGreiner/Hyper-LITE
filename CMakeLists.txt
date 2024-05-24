@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 
-set(PROJECT_NAME            "Hyper-LITE")
-set(PROJECT_TYPE            "exe")
+set(PROJECT_NAME "Hyper-LITE")
+set(PROJECT_TYPE "exe")
 
 project(${PROJECT_NAME} LANGUAGES ASM C CXX)
 
@@ -9,14 +9,12 @@ set(CMAKE_EXECUTABLE_SUFFIX ".elf")
 
 string(TOLOWER ${PROJECT_NAME} EXE_NAME)
 
-# Set the toolchain file
-set(CMAKE_TOOLCHAIN_FILE "${CMAKE_SOURCE_DIR}/cmake/aarch64-linux-gnu-gcc.cmake")
-
-# Define the output binary
-set(HYPER_LITE_ELF "${EXE_NAME}.elf")
-set(HYPER_LITE_BIN "${EXE_NAME}.bin")
+# Define the output binaries
+set(HYPER_LITE_ELF  "${EXE_NAME}.elf")
+set(HYPER_LITE_TEST "${EXE_NAME}-test.elf")
 
 include(ExternalProject)
+include(FetchContent)
 
 # Define the Newlib version and repository
 set(NEWLIB_VERSION 4.1.0)
@@ -40,16 +38,22 @@ if(NOT EXISTS "${NEWLIB_INSTALL_DIR}/aarch64-none-elf/lib/libc.a")
         INSTALL_COMMAND make install
         BUILD_IN_SOURCE 1
     )
-
     add_custom_target(newlib_target DEPENDS newlib)
 else()
     add_custom_target(newlib_target)
 endif()
 
+# Fetch Unity testing framework
+FetchContent_Declare(
+    unity
+    GIT_REPOSITORY https://github.com/ThrowTheSwitch/Unity.git
+    GIT_TAG master
+)
+FetchContent_MakeAvailable(unity)
+
 # Define project sources
 set(PROJECT_SOURCES
     src/start.s
-    src/main.c
     src/arch/arm64/src/syscalls.c
     src/drivers/uart/src/uart.c
     src/lib/logging/src/logging.c
@@ -62,18 +66,14 @@ set(PROJECT_INCLUDES
     src/drivers/uart/inc
     src/lib/logging/inc
     src/mmu/inc
-
     ${NEWLIB_INSTALL_DIR}/aarch64-none-elf/include
 )
 
 # Define compiler definitions
-set(PROJECT_DEFINES
-    # Add compiler definitions here
-)
+set(PROJECT_DEFINES)
 
 # Define compiler flags
 set(PROJECT_C_FLAGS
-    # Add C compiler flags here
     -ffreestanding
     -Wall
     -g3
@@ -81,7 +81,6 @@ set(PROJECT_C_FLAGS
 )
 
 set(PROJECT_ASM_FLAGS
-    # Add assembler flags here
     -g3
     -O0
 )
@@ -106,8 +105,8 @@ include_directories(${PROJECT_INCLUDES})
 # Link directories
 link_directories(${NEWLIB_INSTALL_DIR}/aarch64-none-elf/lib)
 
-# Add executable
-add_executable(${PROJECT_NAME} ${PROJECT_SOURCES})
+# Add executable for the main project
+add_executable(${PROJECT_NAME} src/main.c ${PROJECT_SOURCES})
 
 # Ensure Newlib is built first
 add_dependencies(${PROJECT_NAME} newlib_target)
@@ -116,13 +115,32 @@ target_link_libraries(${PROJECT_NAME} ${NEWLIB_INSTALL_DIR}/aarch64-none-elf/lib
 
 # Set target properties
 set_target_properties(${PROJECT_NAME} PROPERTIES 
-    LINK_FLAGS          "${PROJECT_LINK_FLAGS_STR}"
+    LINK_FLAGS "${PROJECT_LINK_FLAGS_STR}"
     COMPILE_DEFINITIONS "${PROJECT_DEFINES_STR}"
-    COMPILE_FLAGS       "${PROJECT_C_FLAGS_STR} ${PROJECT_ASM_FLAGS_STR}"
-    OUTPUT_NAME         "${EXE_NAME}"
+    COMPILE_FLAGS "${PROJECT_C_FLAGS_STR} ${PROJECT_ASM_FLAGS_STR}"
+    OUTPUT_NAME "${EXE_NAME}"
 )
 
-# Create the binary file
-add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-    COMMAND ${CMAKE_OBJCOPY} -O binary ${HYPER_LITE_ELF} ${HYPER_LITE_BIN}
+# Add executable for the test project
+add_executable(${HYPER_LITE_TEST} test/test_main.c ${PROJECT_SOURCES})
+
+# Ensure Newlib is built first for tests
+add_dependencies(${HYPER_LITE_TEST} newlib_target)
+
+# Include Unity headers
+target_include_directories(${HYPER_LITE_TEST} PRIVATE ${unity_SOURCE_DIR}/src)
+
+# Link Unity library
+target_link_libraries(${HYPER_LITE_TEST}
+    ${unity_SOURCE_DIR}/src/unity.c
+    ${NEWLIB_INSTALL_DIR}/aarch64-none-elf/lib/libc.a
+    ${NEWLIB_INSTALL_DIR}/aarch64-none-elf/lib/libm.a
+)
+
+# Set target properties for tests
+set_target_properties(${HYPER_LITE_TEST} PROPERTIES 
+    LINK_FLAGS "${PROJECT_LINK_FLAGS_STR}"
+    COMPILE_DEFINITIONS "${PROJECT_DEFINES_STR}"
+    COMPILE_FLAGS "${PROJECT_C_FLAGS_STR} ${PROJECT_ASM_FLAGS_STR}"
+    OUTPUT_NAME "${EXE_NAME}-test"
 )

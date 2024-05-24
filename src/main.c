@@ -34,9 +34,9 @@
  * SOFTWARE.
  */
 
-#include <stdint.h>
 #include "logging.h"
 #include "mmu.h"
+#include <stdint.h>
 
 /**
  * @brief Exit QEMU.
@@ -70,13 +70,11 @@ void main(void)
                  : "=r"(current_el));
     current_el = (current_el >> 2) & 0x3;
 
-    LOG_INFO("Entered main at EL%d\n\r", current_el);
+    LOG_INFO("Entered main at EL%lu.\n\r", current_el);
 
     LOG_INFO("Starting MMU Initialization\n\r");
     mmu_init(); // Initialize the MMU
     LOG_INFO("MMU Initialization Complete\n\r");
 
-    validate_mmu_setup();
-    
     qemu_exit(); // Call the function to exit QEMU
 }
