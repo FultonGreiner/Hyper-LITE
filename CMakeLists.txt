@@ -54,6 +54,7 @@ FetchContent_MakeAvailable(unity)
 # Define project sources
 set(PROJECT_SOURCES
     src/start.s
+    src/arch/arm64/src/exception.c
     src/arch/arm64/src/syscalls.c
     src/drivers/uart/src/uart.c
     src/lib/logging/src/logging.c
